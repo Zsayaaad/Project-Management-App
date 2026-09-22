@@ -1,4 +1,4 @@
-# ProjectFlow — Task Management App
+# Project Management App
 
 A full-stack project and task management application with real-time team chat, video meetings, and role-based access control. Built with React, Express, PostgreSQL, Redis, and Stream.
 
@@ -43,36 +43,36 @@ A full-stack project and task management application with real-time team chat, v
 
 ### Backend
 
-| Technology | Purpose |
-|---|---|
-| **Express 5** | HTTP server and REST API |
-| **TypeScript** | Type safety |
-| **Prisma 7** (with `@prisma/adapter-pg`) | ORM and database migrations |
-| **PostgreSQL** | Relational database |
-| **Redis** (via ioredis) | Rate limiting, token revocation, job queues |
-| **BullMQ** | Background job processing |
-| **Stream Chat & Video** (`stream-chat`, `@stream-io/node-sdk`) | Real-time messaging and video calls |
-| **ImageKit** | Image upload and management (avatars) |
-| **Zod** | Request validation |
-| **bcryptjs** | Password hashing |
-| **jsonwebtoken** | JWT token generation and verification |
-| **Helmet** | HTTP security headers |
-| **Jest** + **SWC** | Testing framework (configured) |
+| Technology                                                     | Purpose                                     |
+| -------------------------------------------------------------- | ------------------------------------------- |
+| **Express 5**                                                  | HTTP server and REST API                    |
+| **TypeScript**                                                 | Type safety                                 |
+| **Prisma 7** (with `@prisma/adapter-pg`)                       | ORM and database migrations                 |
+| **PostgreSQL**                                                 | Relational database                         |
+| **Redis** (via ioredis)                                        | Rate limiting, token revocation, job queues |
+| **BullMQ**                                                     | Background job processing                   |
+| **Stream Chat & Video** (`stream-chat`, `@stream-io/node-sdk`) | Real-time messaging and video calls         |
+| **ImageKit**                                                   | Image upload and management (avatars)       |
+| **Zod**                                                        | Request validation                          |
+| **bcryptjs**                                                   | Password hashing                            |
+| **jsonwebtoken**                                               | JWT token generation and verification       |
+| **Helmet**                                                     | HTTP security headers                       |
+| **Jest** + **SWC**                                             | Testing framework (configured)              |
 
 ### Frontend
 
-| Technology | Purpose |
-|---|---|
-| **React 19** | UI framework |
-| **Vite 8** | Build tool and dev server |
-| **React Router 7** | Client-side routing with loaders and actions |
-| **TanStack React Query** | Server state management and caching |
-| **Tailwind CSS 4** | Utility-first styling |
-| **Axios** | HTTP client |
-| **Stream Chat React** | Chat UI components |
-| **Stream Video React SDK** | Video call UI components |
-| **ImageKit JS SDK** | Client-side image uploads |
-| **React Toastify** | Toast notifications |
+| Technology                 | Purpose                                      |
+| -------------------------- | -------------------------------------------- |
+| **React 19**               | UI framework                                 |
+| **Vite 8**                 | Build tool and dev server                    |
+| **React Router 7**         | Client-side routing with loaders and actions |
+| **TanStack React Query**   | Server state management and caching          |
+| **Tailwind CSS 4**         | Utility-first styling                        |
+| **Axios**                  | HTTP client                                  |
+| **Stream Chat React**      | Chat UI components                           |
+| **Stream Video React SDK** | Video call UI components                     |
+| **ImageKit JS SDK**        | Client-side image uploads                    |
+| **React Toastify**         | Toast notifications                          |
 
 ---
 
@@ -197,19 +197,19 @@ IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-imagekit-id
 REDIS_URL=redis://localhost:6379
 ```
 
-| Variable | Description |
-|---|---|
-| `PORT` | Backend server port (default: `3001`) |
-| `NODE_ENV` | `development`, `production`, or `test` |
-| `DATABASE_URL` | PostgreSQL connection string |
-| `JWT_SECRET` | Secret key for signing JWTs |
-| `JWT_EXPIRES_IN` | Token expiry duration (default: `7d`) |
-| `STREAM_API_KEY` | Stream API key (from your Stream dashboard) |
-| `STREAM_API_SECRET` | Stream API secret |
-| `IMAGEKIT_PUBLIC_KEY` | ImageKit public key |
-| `IMAGEKIT_PRIVATE_KEY` | ImageKit private key |
-| `IMAGEKIT_URL_ENDPOINT` | ImageKit URL endpoint |
-| `REDIS_URL` | Redis connection URL (default: `redis://localhost:6379`) |
+| Variable                | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| `PORT`                  | Backend server port (default: `3001`)                    |
+| `NODE_ENV`              | `development`, `production`, or `test`                   |
+| `DATABASE_URL`          | PostgreSQL connection string                             |
+| `JWT_SECRET`            | Secret key for signing JWTs                              |
+| `JWT_EXPIRES_IN`        | Token expiry duration (default: `7d`)                    |
+| `STREAM_API_KEY`        | Stream API key (from your Stream dashboard)              |
+| `STREAM_API_SECRET`     | Stream API secret                                        |
+| `IMAGEKIT_PUBLIC_KEY`   | ImageKit public key                                      |
+| `IMAGEKIT_PRIVATE_KEY`  | ImageKit private key                                     |
+| `IMAGEKIT_URL_ENDPOINT` | ImageKit URL endpoint                                    |
+| `REDIS_URL`             | Redis connection URL (default: `redis://localhost:6379`) |
 
 All environment variables are validated at startup using Zod. Missing or invalid values will cause the server to fail fast with a descriptive error.
 
@@ -260,62 +260,62 @@ All API routes are prefixed with `/api/v1`. Protected routes require a valid JWT
 
 ### Auth
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/auth/register` | No | Register a new user |
-| `POST` | `/auth/login` | No | Log in and receive a JWT cookie |
-| `POST` | `/auth/logout` | No | Clear the auth cookie |
+| Method | Endpoint         | Auth | Description                     |
+| ------ | ---------------- | ---- | ------------------------------- |
+| `POST` | `/auth/register` | No   | Register a new user             |
+| `POST` | `/auth/login`    | No   | Log in and receive a JWT cookie |
+| `POST` | `/auth/logout`   | No   | Clear the auth cookie           |
 
 ### Users
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/users/current-user` | Yes | Get current authenticated user |
-| `PATCH` | `/users/profile` | Yes | Update name and/or email |
-| `PATCH` | `/users/avatar` | Yes | Update avatar URL |
-| `PATCH` | `/users/change-password` | Yes | Change password (requires current password) |
-| `DELETE` | `/users/account` | Yes | Delete account (requires password confirmation) |
+| Method   | Endpoint                 | Auth | Description                                     |
+| -------- | ------------------------ | ---- | ----------------------------------------------- |
+| `GET`    | `/users/current-user`    | Yes  | Get current authenticated user                  |
+| `PATCH`  | `/users/profile`         | Yes  | Update name and/or email                        |
+| `PATCH`  | `/users/avatar`          | Yes  | Update avatar URL                               |
+| `PATCH`  | `/users/change-password` | Yes  | Change password (requires current password)     |
+| `DELETE` | `/users/account`         | Yes  | Delete account (requires password confirmation) |
 
 ### Projects
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/projects` | Yes | Create a new project |
-| `GET` | `/projects` | Yes | List projects (search, sort, pagination) |
-| `GET` | `/projects/:projectId` | Yes | Get project details |
-| `PATCH` | `/projects/:projectId` | Yes | Update project (creator/admin only) |
-| `DELETE` | `/projects/:projectId` | Yes | Delete project (creator/admin only) |
-| `GET` | `/projects/:projectId/members` | Yes | List project members |
-| `POST` | `/projects/:projectId/members` | Yes | Add a member by email (creator/admin only) |
-| `DELETE` | `/projects/:projectId/members/:userId` | Yes | Remove a member (creator/admin only) |
+| Method   | Endpoint                               | Auth | Description                                |
+| -------- | -------------------------------------- | ---- | ------------------------------------------ |
+| `POST`   | `/projects`                            | Yes  | Create a new project                       |
+| `GET`    | `/projects`                            | Yes  | List projects (search, sort, pagination)   |
+| `GET`    | `/projects/:projectId`                 | Yes  | Get project details                        |
+| `PATCH`  | `/projects/:projectId`                 | Yes  | Update project (creator/admin only)        |
+| `DELETE` | `/projects/:projectId`                 | Yes  | Delete project (creator/admin only)        |
+| `GET`    | `/projects/:projectId/members`         | Yes  | List project members                       |
+| `POST`   | `/projects/:projectId/members`         | Yes  | Add a member by email (creator/admin only) |
+| `DELETE` | `/projects/:projectId/members/:userId` | Yes  | Remove a member (creator/admin only)       |
 
 ### Tasks
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/tasks/:projectId` | Yes | Create a task |
-| `GET` | `/tasks/:projectId` | Yes | List tasks (filter by status, priority, search) |
-| `GET` | `/tasks/:projectId/:taskId` | Yes | Get task details |
-| `PATCH` | `/tasks/:projectId/:taskId` | Yes | Update a task |
-| `DELETE` | `/tasks/:projectId/:taskId` | Yes | Delete a task (creator/admin only) |
+| Method   | Endpoint                    | Auth | Description                                     |
+| -------- | --------------------------- | ---- | ----------------------------------------------- |
+| `POST`   | `/tasks/:projectId`         | Yes  | Create a task                                   |
+| `GET`    | `/tasks/:projectId`         | Yes  | List tasks (filter by status, priority, search) |
+| `GET`    | `/tasks/:projectId/:taskId` | Yes  | Get task details                                |
+| `PATCH`  | `/tasks/:projectId/:taskId` | Yes  | Update a task                                   |
+| `DELETE` | `/tasks/:projectId/:taskId` | Yes  | Delete a task (creator/admin only)              |
 
 ### Stream
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/stream/token` | Yes | Generate Stream chat and video tokens |
+| Method | Endpoint        | Auth | Description                           |
+| ------ | --------------- | ---- | ------------------------------------- |
+| `GET`  | `/stream/token` | Yes  | Generate Stream chat and video tokens |
 
 ### ImageKit
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/imagekit/auth` | Yes | Get ImageKit upload authentication parameters |
+| Method | Endpoint         | Auth | Description                                   |
+| ------ | ---------------- | ---- | --------------------------------------------- |
+| `GET`  | `/imagekit/auth` | Yes  | Get ImageKit upload authentication parameters |
 
 ### Health
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/health` | No | Health check (service, DB, and Redis status) |
+| Method | Endpoint  | Auth | Description                                  |
+| ------ | --------- | ---- | -------------------------------------------- |
+| `GET`  | `/health` | No   | Health check (service, DB, and Redis status) |
 
 ---
 
@@ -342,15 +342,15 @@ External API calls to **Stream** and **ImageKit** are processed asynchronously v
 
 **Job types handled by the sync worker:**
 
-| Job Name | Description |
-|---|---|
-| `stream.channel.create` | Create a Stream chat channel for a new project |
-| `stream.channel.update` | Rename a channel when a project is renamed |
-| `stream.channel.delete` | Delete a channel when a project is deleted |
-| `stream.member.add` | Add a user to a project's chat channel |
-| `stream.member.remove` | Remove a user from a project's chat channel |
-| `stream.announce` | Post a silent message to a project's chat (task events) |
-| `imagekit.delete` | Delete an old avatar image from ImageKit |
+| Job Name                | Description                                             |
+| ----------------------- | ------------------------------------------------------- |
+| `stream.channel.create` | Create a Stream chat channel for a new project          |
+| `stream.channel.update` | Rename a channel when a project is renamed              |
+| `stream.channel.delete` | Delete a channel when a project is deleted              |
+| `stream.member.add`     | Add a user to a project's chat channel                  |
+| `stream.member.remove`  | Remove a user from a project's chat channel             |
+| `stream.announce`       | Post a silent message to a project's chat (task events) |
+| `imagekit.delete`       | Delete an old avatar image from ImageKit                |
 
 ---
 
@@ -374,6 +374,7 @@ docker run -p 3001:3001 --env-file backend/.env projectflow
 ```
 
 **Build stages:**
+
 1. **frontend-build** — Installs frontend dependencies and runs `vite build`.
 2. **backend-build** — Installs backend dependencies, generates Prisma client, and compiles TypeScript.
 3. **runner** — Installs only production dependencies, copies build artifacts, and serves everything from `node dist/index.js`. Express serves the SPA static files from `public/` and API routes from `/api/v1`.
@@ -384,12 +385,12 @@ docker run -p 3001:3001 --env-file backend/.env projectflow
 
 The seed script (`npm run seed` in `backend/`) resets the database and creates sample data:
 
-| Account | Email | Password | Role |
-|---|---|---|---|
-| Admin User | `admin@example.com` | `Admin123!` | `ADMIN` |
-| Alex Johnson | `member@example.com` | `Member123!` | `MEMBER` |
-| Sarah Smith | `member2@example.com` | `Member123!` | `MEMBER` |
-| David Chen | `member3@example.com` | `Member123!` | `MEMBER` |
+| Account      | Email                 | Password     | Role     |
+| ------------ | --------------------- | ------------ | -------- |
+| Admin User   | `admin@example.com`   | `Admin123!`  | `ADMIN`  |
+| Alex Johnson | `member@example.com`  | `Member123!` | `MEMBER` |
+| Sarah Smith  | `member2@example.com` | `Member123!` | `MEMBER` |
+| David Chen   | `member3@example.com` | `Member123!` | `MEMBER` |
 
 The seed also creates sample projects with tasks assigned across members.
 
