@@ -4,8 +4,11 @@ import { parseRole } from "../../lib/roles.js";
 import { comparePassword, hashPassword } from "../../utils/hash.js";
 import { LoginInput, RegisterInput } from "./auth.schema.js";
 import { generateToken } from "../../utils/jwt.js";
+import { getEnv } from "../../lib/env.js";
 
 export const register = async (data: RegisterInput) => {
+  const env = getEnv();
+
   const existingUser = await prisma.user.findUnique({
     where: {
       email: data.email,
@@ -30,34 +33,47 @@ export const register = async (data: RegisterInput) => {
     },
   });
 
-  const token = generateToken({
-    userId: user.id,
-    name: user.name,
-    role: user.role,
-  });
+  const token = generateToken(
+    {
+      userId: user.id,
+      name: user.name,
+      role: user.role,
+    },
+    env.JWT_SECRET,
+    env.JWT_EXPIRES_IN,
+  );
 
   return { user, token };
 };
 
 export const login = async (data: LoginInput) => {
+  const env = getEnv();
+
   const user = await prisma.user.findUnique({
     where: {
       email: data.email,
     },
   });
 
-  const isValidUser =
-    user && (await comparePassword(data.password, user.password));
-
-  if (!isValidUser) {
+  if (!user) {
     throw new UnauthorizedError("Invalid email or password");
   }
 
-  const token = generateToken({
-    userId: user.id,
-    name: user.name,
-    role: user.role,
-  });
+  const isPasswordValid = await comparePassword(data.password, user.password);
+
+  if (!isPasswordValid) {
+    throw new UnauthorizedError("Invalid email or password");
+  }
+
+  const token = generateToken(
+    {
+      userId: user.id,
+      name: user.name,
+      role: user.role,
+    },
+    env.JWT_SECRET,
+    env.JWT_EXPIRES_IN,
+  );
 
   return {
     user: {

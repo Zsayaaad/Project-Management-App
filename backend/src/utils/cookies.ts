@@ -1,21 +1,26 @@
-import { Response } from "express";
-import { getEnv } from "../lib/env.js";
+import { CookieOptions, Response } from "express";
 
-const env = getEnv();
+const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
 
-export const setAuthCookie = (res: Response, token: string) => {
-  res.cookie("token", token, {
-    httpOnly: true, // CRITICAL: Prevents client-side JS from reading the cookie
-    secure: env.NODE_ENV === "production", // Ensures cookie only sent over HTTPS only in production
-    sameSite: "strict", // Protects against CSRF
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 day in ms
-  });
+export const getCookieOptions = (isProduction: boolean): CookieOptions => ({
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: "strict",
+  maxAge: SEVEN_DAYS_IN_MS,
+});
+
+export const setAuthCookie = (
+  res: Response,
+  token: string,
+  isProduction: boolean,
+) => {
+  res.cookie("token", token, getCookieOptions(isProduction));
 };
 
-export const clearAuthCookie = (res: Response) => {
+export const clearAuthCookie = (res: Response, isProduction: boolean) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: env.NODE_ENV === "production",
+    secure: isProduction,
     sameSite: "strict",
   });
 };
