@@ -4,11 +4,9 @@ export const updateProfileSchema = z.object({
   name: z
     .string()
     .min(1, "Name name is required")
-    .max(20, "Name name cannot exceed 10 characters"),
-
-  email: z.email({
-    error: "invalid email format",
-  }),
+    .max(20, "Name name cannot exceed 20 characters")
+    .optional(),
+  email: z.email({ error: "Invalid email format" }).optional(),
 });
 
 export const updateAvatarSchema = z.object({
@@ -21,13 +19,13 @@ export const changePasswordSchema = z
 
     newPassword: z
       .string()
-      .min(1, "current password is required")
-      .min(8, "new password must be at least 8 characters long"),
+      .min(1, "New password is required")
+      .min(8, "New password must be at least 8 characters long"),
 
     confirmNewPassword: z.string().min(1, "confirm new password is required"),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
-    path: ["confirmedNewPassword"],
+    path: ["confirmNewPassword"],
     message: "passwords do not match",
   })
   .refine((data) => data.currentPassword !== data.newPassword, {
