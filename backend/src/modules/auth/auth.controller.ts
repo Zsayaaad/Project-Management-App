@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { authService } from "./auth.service.js";
 import { clearAuthCookie, setAuthCookie } from "../../utils/cookies.js";
-import { verifyToken } from "../../utils/jwt.js";
-import { redisClient } from "../../lib/redis.js";
 import { getEnv } from "../../lib/env.js";
 
 export const register = async (req: Request, res: Response) => {
@@ -35,22 +33,7 @@ export const logout = async (req: Request, res: Response) => {
 
   // If there's a token, blacklist it in Redis until it naturally expires
   if (token) {
-    try {
-      const payload = verifyToken(token, env.JWT_SECRET) as { exp: number };
-      if (payload && payload.exp) {
-        const now = Math.floor(Date.now() / 1000);
-        // store it in Redis with a matching Time-To-Live (TTL)
-        const ttl = payload.exp - now;
-
-        // Only store if it hasn't already expired
-        if (ttl > 0) {
-          await redisClient.set(`revoked_token:${token}`, "1", "EX", ttl);
-        }
-      }
-    } catch (error) {
-      // If token is already invalid/expired, no need to blacklist it
-      console.error("Error blacklisting token:", error);
-    }
+    await authService.revokeToken(token);
   }
 
   clearAuthCookie(res, env.NODE_ENV === "production");
