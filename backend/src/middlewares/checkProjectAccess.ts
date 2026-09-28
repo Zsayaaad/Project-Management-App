@@ -24,7 +24,6 @@ export const checkProjectAccess = async (
   next: NextFunction,
 ) => {
   try {
-    // const projectId = req.params.projectId as string;
     const projectId = extractProjectId(req);
 
     if (!req.user) {
@@ -64,7 +63,6 @@ export const authorizeProjectCreator = async (
   next: NextFunction,
 ) => {
   try {
-    // const projectId = req.params.projectId as string;
     const projectId = extractProjectId(req);
 
     if (!req.user) {

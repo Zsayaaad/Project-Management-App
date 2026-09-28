@@ -14,11 +14,6 @@ import {
 import { streamClient } from "../../lib/stream.js";
 import { syncQueue } from "../../lib/queues.js";
 
-/* =========================================================================
-   PHASE 2 — STREAM SYNC
-   Every Project maps 1:1 to a Stream "messaging" channel with a
-   predictable ID:  project-<projectId>
-   ========================================================================= */
 export const getProjectChannel = (projectId: string) =>
   streamClient.channel("messaging", `project-${projectId}`);
 
@@ -26,21 +21,19 @@ export const createProject = async (
   creatorId: string,
   data: CreateProjectInput,
 ) => {
-  /**
-  THIS approach has two issues:
-    1- Race condition — the findFirst check is outside the transaction, so two requests could both pass the check before either creates the project
-    2- Unnecessary fetch — you're doing a third query after the transaction
-  */
+  //#region
+  // THIS approach has two issues:
+  // 1- Race condition — the findFirst check is outside the transaction, so two requests could both pass the check before either creates the project
+  // 2- Unnecessary fetch — you're doing a third query after the transaction
   // const existingProject = await prisma.project.findFirst({
-  //   where: {
-  //     name: data.name,
-  //   },
-  // });
-
-  // if (existingProject) {
-  //   throw new ConflictError("You already have a project with this name");
-  // }
-
+  //     where: {
+  //       name: data.name,
+  //     },
+  //   });
+  //   if (existingProject) {
+  //     throw new ConflictError("You already have a project with this name");
+  //   }
+  //#endregion
   try {
     // Single transaction: create project + member + return with relations
     // $transaction = atomic writes (all succeed or all rollback)
@@ -48,7 +41,7 @@ export const createProject = async (
       const newProject = await tx.project.create({
         data: {
           name: data.name,
-          description: data.description,
+          description: data.description!,
           creatorId,
         },
         include: {
@@ -75,6 +68,7 @@ export const createProject = async (
       return newProject;
     });
 
+    //#region Old code reference
     // try {
     //   // Make sure the creator exists in Stream's user storage
     //   await streamClient.upsertUsers([
@@ -103,6 +97,7 @@ export const createProject = async (
     //     streamError,
     //   );
     // }
+    //#endregion
 
     // ---- QUEUE: create the project's chat channel ----
     await syncQueue.add(
@@ -121,41 +116,17 @@ export const createProject = async (
     );
 
     return project;
-  } catch (error: any) {
-    console.log(error);
-
-    if (error.code === "P2002") {
+  } catch (error) {
+    // CLEANUP: Type-safe Prisma error handling
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
       throw new ConflictError("You already have a project with this name");
     }
+
     throw error;
   }
-
-  // const projectWithDetails = await prisma.project.findUnique({
-  //   where: { id: project.id },
-  //   include: {
-  //     creator: {
-  //       select: {
-  //         id: true,
-  //         name: true,
-  //         email: true,
-  //         role: true,
-  //       },
-  //     },
-  //     members: {
-  //       include: {
-  //         user: {
-  //           select: {
-  //             id: true,
-  //             name: true,
-  //             email: true,
-  //             role: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
-  // return projectWithDetails;
 };
 
 export const getAllProjects = async (
@@ -178,7 +149,7 @@ export const getAllProjects = async (
     oldest: { createdAt: "asc" },
   };
 
-  const orderBy = sortOptions[sort] || { createdAt: "desc" };
+  const orderBy = sortOptions[sort!] || { createdAt: "desc" };
 
   const [totalProjects, projects] = await Promise.all([
     prisma.project.count({ where }),
