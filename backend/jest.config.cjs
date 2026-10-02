@@ -1,8 +1,7 @@
 /** @type {import('jest').Config} */
-module.exports = {
+const baseConfig = {
   testEnvironment: "node",
   roots: ["<rootDir>/src"],
-  testMatch: ["**/*.test.ts"],
   clearMocks: true,
   transform: {
     "^.+\\.ts$": [
@@ -19,4 +18,28 @@ module.exports = {
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
+};
+
+module.exports = {
+  projects: [
+    {
+      ...baseConfig,
+      displayName: "unit",
+      testMatch: ["**/*.test.ts"],
+      testPathIgnorePatterns: [
+        ".*\\.int\\.test\\.ts$",
+        ".*\\.api\\.test\\.ts$",
+      ],
+      setupFiles: ["<rootDir>/src/test/setupEnv.ts"],
+      setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
+    },
+    {
+      ...baseConfig,
+      displayName: "integration",
+      testMatch: ["**/*.int.test.ts", "**/*.api.test.ts"],
+      setupFiles: ["<rootDir>/src/test/setupEnv.ts"],
+      globalSetup: "<rootDir>/src/test/globalSetup.ts",
+      setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
+    },
+  ],
 };
