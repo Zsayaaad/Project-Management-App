@@ -1,12 +1,6 @@
-// This runs before every test file. It globally mocks third-party boundaries (Stream, ImageKit, BullMQ)
-// and ensures connections are closed after each file to prevent "open handle" warnings.
-
-import { prisma } from "../lib/prisma.js";
-import { redisClient } from "../lib/redis.js";
-import { queueConnection } from "../lib/queueConnection.js";
-import { resetDb, flushRedis } from "./dbHelpers.js";
-
-// Mock third-party boundaries globally
+// Mock third-party boundaries globally.
+// These mocks prevent the real SDK clients from being instantiated,
+// which avoids network calls during tests.
 jest.mock("../lib/stream.js", () => ({
   chatClient: {
     upsertUsers: jest.fn(),
@@ -35,16 +29,3 @@ jest.mock("../lib/queues.js", () => ({
 jest.mock("../workers/sync.worker.js", () => ({
   syncWorker: { close: jest.fn() },
 }));
-
-beforeEach(async () => {
-  // Reset database and Redis before each test
-  await resetDb();
-  await flushRedis();
-});
-
-afterAll(async () => {
-  // Close connections to prevent open handle warnings
-  await prisma.$disconnect();
-  await redisClient.quit();
-  await queueConnection.quit();
-});

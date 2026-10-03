@@ -39,7 +39,10 @@ module.exports = {
       testMatch: ["**/*.int.test.ts", "**/*.api.test.ts"],
       setupFiles: ["<rootDir>/src/test/setupEnv.ts"],
       globalSetup: "<rootDir>/src/test/globalSetup.ts",
-      setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
+      setupFilesAfterEnv: [
+        "<rootDir>/src/test/setup.ts",
+        "<rootDir>/src/test/setupIntegration.ts",
+      ],
     },
   ],
 };

@@ -22,8 +22,10 @@ const isTestEnvironment = () => {
 
 /**
  * Truncates all tables in the test database.
- * Uses RESTART IDENTITY CASCADE to reset auto-increment counters and handle foreign keys.
- * Safety guard: Only runs when NODE_ENV=test and DATABASE_URL points to localhost/app_test.
+ * Table names are discovered dynamically from pg_tables so this
+ * never drifts from the Prisma schema.
+ * Uses RESTART IDENTITY CASCADE to reset auto-increment counters
+ * and handle foreign key dependencies.
  */
 export const resetDb = async () => {
   if (!isTestEnvironment()) {
@@ -32,18 +34,24 @@ export const resetDb = async () => {
     );
   }
 
-  const tables = ["Task", "ProjectMember", "Project", "User"];
+  // Discover all table names dynamically from the public schema
+  const tables = await prisma.$queryRaw<Array<{ tablename: string }>>`
+    SELECT tablename FROM pg_tables WHERE schemaname = 'public'
+  `;
 
-  for (const table of tables) {
-    await prisma.$executeRawUnsafe(
-      `TRUNCATE TABLE "${table}" RESTART IDENTITY CASCADE;`,
-    );
+  if (tables.length === 0) {
+    return; // No tables yet (migrations not run)
   }
+
+  // Truncate all tables in a single statement to avoid ordering issues
+  const tableNames = tables.map((t) => `"${t.tablename}"`).join(", ");
+  await prisma.$executeRawUnsafe(
+    `TRUNCATE TABLE ${tableNames} RESTART IDENTITY CASCADE;`,
+  );
 };
 
 /**
  * Flushes all keys from the test Redis instance.
- * Safety guard: Only runs when NODE_ENV=test and REDIS_URL points to localhost.
  */
 export const flushRedis = async () => {
   if (!isTestEnvironment()) {
