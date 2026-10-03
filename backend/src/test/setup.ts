@@ -4,6 +4,7 @@
 import { prisma } from "../lib/prisma.js";
 import { redisClient } from "../lib/redis.js";
 import { queueConnection } from "../lib/queueConnection.js";
+import { resetDb, flushRedis } from "./dbHelpers.js";
 
 // Mock third-party boundaries globally
 jest.mock("../lib/stream.js", () => ({
@@ -34,6 +35,12 @@ jest.mock("../lib/queues.js", () => ({
 jest.mock("../workers/sync.worker.js", () => ({
   syncWorker: { close: jest.fn() },
 }));
+
+beforeEach(async () => {
+  // Reset database and Redis before each test
+  await resetDb();
+  await flushRedis();
+});
 
 afterAll(async () => {
   // Close connections to prevent open handle warnings
