@@ -3,33 +3,27 @@ import { isAdmin, parseRole } from "../roles.js";
 
 describe("Role Utilities", () => {
   describe("parseRole", () => {
-    it("should return ADMIN when 'ADMIN' is passed", () => {
-      expect(parseRole("ADMIN")).toBe(Role.ADMIN);
-    });
-
-    it("should return MEMBER when 'MEMBER' is passed", () => {
-      expect(parseRole("MEMBER")).toBe(Role.MEMBER);
-    });
-
-    it("should default to MEMBER for invalid strings", () => {
-      expect(parseRole("SUPER_ADMIN")).toBe(Role.MEMBER);
-      expect(parseRole("")).toBe(Role.MEMBER);
-    });
-
-    it("should default to MEMBER for non-string types", () => {
-      expect(parseRole(null)).toBe(Role.MEMBER);
-      expect(parseRole(undefined)).toBe(Role.MEMBER);
-      expect(parseRole(123)).toBe(Role.MEMBER);
+    it.each([
+      ["ADMIN string", "ADMIN", Role.ADMIN],
+      ["MEMBER string", "MEMBER", Role.MEMBER],
+      ["lowercase admin", "admin", Role.MEMBER],
+      ["invalid string", "SUPER_ADMIN", Role.MEMBER],
+      ["empty string", "", Role.MEMBER],
+      ["null", null, Role.MEMBER],
+      ["undefined", undefined, Role.MEMBER],
+      ["number", 123, Role.MEMBER],
+      ["object", {}, Role.MEMBER],
+    ])("returns %s for %s", (_case, input, expected) => {
+      expect(parseRole(input)).toBe(expected);
     });
   });
 
   describe("isAdmin", () => {
-    it("should return true for ADMIN role", () => {
-      expect(isAdmin(Role.ADMIN)).toBe(true);
-    });
-
-    it("should return false for MEMBER role", () => {
-      expect(isAdmin(Role.MEMBER)).toBe(false);
+    it.each([
+      ["ADMIN role", Role.ADMIN, true],
+      ["MEMBER role", Role.MEMBER, false],
+    ])("returns %s for %s", (_case, role, expected) => {
+      expect(isAdmin(role)).toBe(expected);
     });
   });
 });

@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
 import { generateToken, verifyToken } from "../jwt.js";
 
-// Mock the 3rd party lib
 jest.mock("jsonwebtoken", () => ({
   sign: jest.fn(),
   verify: jest.fn(),
 }));
+
+const mockSign = jwt.sign as unknown as jest.Mock;
+const mockVerify = jwt.verify as unknown as jest.Mock;
 
 describe("JWT Utilities", () => {
   const mockPayload = { userId: "123", role: "ADMIN" };
@@ -17,32 +19,32 @@ describe("JWT Utilities", () => {
   });
 
   describe("generateToken", () => {
-    it("should call jwt.sign with correct payload, secret, and options", () => {
-      (jwt.sign as jest.Mock).mockReturnValue("mocked-token");
+    it("calls jwt.sign with correct payload, secret, and options", () => {
+      const token = "mocked-token";
+      mockSign.mockReturnValue(token);
 
-      const token = generateToken(mockPayload, mockSecret, mockExpiry);
+      const result = generateToken(mockPayload, mockSecret, mockExpiry);
 
-      expect(token).toBe("mocked-token");
-      expect(jwt.sign).toHaveBeenCalledTimes(1);
-      expect(jwt.sign).toHaveBeenCalledWith(mockPayload, mockSecret, {
+      expect(result).toBe(token);
+      expect(mockSign).toHaveBeenCalledWith(mockPayload, mockSecret, {
         expiresIn: mockExpiry,
       });
     });
   });
 
   describe("verifyToken", () => {
-    it("should call jwt.verify with token and secret", () => {
+    it("calls jwt.verify with token and secret", () => {
       const decodedPayload = { userId: "123", iat: 123456 };
-      (jwt.verify as jest.Mock).mockReturnValue(decodedPayload);
+      mockVerify.mockReturnValue(decodedPayload);
 
       const result = verifyToken("valid-token", mockSecret);
 
       expect(result).toEqual(decodedPayload);
-      expect(jwt.verify).toHaveBeenCalledWith("valid-token", mockSecret);
+      expect(mockVerify).toHaveBeenCalledWith("valid-token", mockSecret);
     });
 
-    it("should throw an error if token is invalid or expired", () => {
-      (jwt.verify as jest.Mock).mockImplementation(() => {
+    it("throws error when token is invalid or expired", () => {
+      mockVerify.mockImplementation(() => {
         throw new Error("jwt expired");
       });
 

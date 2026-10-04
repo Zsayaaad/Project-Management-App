@@ -5,48 +5,47 @@ import {
   setAuthCookie,
 } from "../cookies.js";
 
-// Here we use mock Express Response objects to verify the exact cookie configuration.
 describe("Cookie Utilities", () => {
-  let mockRes: Partial<Response>;
-
-  beforeEach(() => {
-    mockRes = {
-      cookie: jest.fn().mockReturnThis(),
-      clearCookie: jest.fn().mockReturnThis(),
-    };
-  });
+  const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
 
   describe("getCookieOptions", () => {
-    it("should set secure to true in production", () => {
-      const options = getCookieOptions(true);
-      expect(options.secure).toBe(true);
+    it.each([
+      ["production", true, true],
+      ["development", false, false],
+    ])("sets secure to %s in %s", (_case, isProduction, expectedSecure) => {
+      const options = getCookieOptions(isProduction);
+
+      expect(options.secure).toBe(expectedSecure);
       expect(options.httpOnly).toBe(true);
       expect(options.sameSite).toBe("strict");
-      expect(options.maxAge).toBe(1000 * 60 * 60 * 24 * 7);
-    });
-
-    it("should set secure to false in development", () => {
-      const options = getCookieOptions(false);
-      expect(options.secure).toBe(false);
+      expect(options.maxAge).toBe(SEVEN_DAYS_IN_MS);
     });
   });
 
   describe("setAuthCookie", () => {
-    it("should set the token cookie with correct options", () => {
-      setAuthCookie(mockRes as Response, "my-jwt-token", true);
+    it("sets token cookie with correct options", () => {
+      const mockRes = {
+        cookie: jest.fn().mockReturnThis(),
+      } as unknown as Response;
 
-      expect(mockRes.cookie).toHaveBeenCalledWith("token", "my-jwt-token", {
+      setAuthCookie(mockRes, "jwt-token", true);
+
+      expect(mockRes.cookie).toHaveBeenCalledWith("token", "jwt-token", {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: SEVEN_DAYS_IN_MS,
       });
     });
   });
 
   describe("clearAuthCookie", () => {
-    it("should clear the token cookie with matching security flags", () => {
-      clearAuthCookie(mockRes as Response, false);
+    it("clears token cookie with matching security flags", () => {
+      const mockRes = {
+        clearCookie: jest.fn().mockReturnThis(),
+      } as unknown as Response;
+
+      clearAuthCookie(mockRes, false);
 
       expect(mockRes.clearCookie).toHaveBeenCalledWith("token", {
         httpOnly: true,
