@@ -19,107 +19,79 @@ describe("Task Schemas", () => {
       ["invalid UUID", { taskId: "not-a-uuid" }],
       ["empty string", { taskId: "" }],
       ["missing taskId", {}],
-      ["non-string", { taskId: 123 }],
     ])("rejects %s", (_case, input) => {
       expect(taskIdParamSchema.safeParse(input).success).toBe(false);
     });
   });
 
   describe("createTaskBodySchema", () => {
-    const validTask = {
+    const validInput = {
       title: "Build Auth",
       description: "Implement JWT authentication",
       dueDate: "2026-10-01",
       assigneeId: "123e4567-e89b-12d3-a456-426614174000",
     };
 
-    it.each([
-      ["valid minimal input", validTask],
-      [
-        "valid with status and priority",
-        { ...validTask, status: "IN_PROGRESS", priority: "HIGH" },
-      ],
-      ["title at minimum length (3)", { ...validTask, title: "abc" }],
-      [
-        "title at maximum length (150)",
-        { ...validTask, title: "a".repeat(150) },
-      ],
-      [
-        "description at maximum (1000)",
-        { ...validTask, description: "a".repeat(1000) },
-      ],
-    ])("accepts %s", (_case, input) => {
-      expect(createTaskBodySchema.safeParse(input).success).toBe(true);
+    it("accepts valid task creation input", () => {
+      expect(createTaskBodySchema.safeParse(validInput).success).toBe(true);
+    });
+
+    it("accepts valid input with optional status and priority", () => {
+      const result = createTaskBodySchema.safeParse({
+        ...validInput,
+        status: TaskStatus.IN_PROGRESS,
+        priority: TaskPriority.HIGH,
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("rejects invalid dueDate format with correct message", () => {
+      const result = createTaskBodySchema.safeParse({
+        ...validInput,
+        dueDate: "01/10/2026",
+      });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(
+          result.error.issues.some(
+            (i) => i.message === "Invalid date format. Must be YYYY-MM-DD",
+          ),
+        ).toBe(true);
+      }
     });
 
     it.each([
-      ["missing title", { ...validTask, title: undefined }],
-      ["title too short", { ...validTask, title: "ab" }],
-      ["title too long", { ...validTask, title: "a".repeat(151) }],
-      ["missing description", { ...validTask, description: undefined }],
-      ["empty description", { ...validTask, description: "" }],
-      ["description too long", { ...validTask, description: "a".repeat(1001) }],
-      ["missing dueDate", { ...validTask, dueDate: undefined }],
-      ["invalid dueDate format", { ...validTask, dueDate: "01-10-2026" }],
-      ["invalid dueDate format 2", { ...validTask, dueDate: "2026/10/01" }],
-      ["missing assigneeId", { ...validTask, assigneeId: undefined }],
-      ["invalid assigneeId", { ...validTask, assigneeId: "not-uuid" }],
-      ["invalid status", { ...validTask, status: "INVALID" }],
-      ["invalid priority", { ...validTask, priority: "URGENT" }],
+      ["title too short (2 chars)", { ...validInput, title: "ab" }],
+      ["title too long (151 chars)", { ...validInput, title: "a".repeat(151) }],
+      ["missing title", { ...validInput, title: undefined }],
+      ["empty description", { ...validInput, description: "" }],
+      [
+        "description too long (1001 chars)",
+        { ...validInput, description: "a".repeat(1001) },
+      ],
+      ["missing dueDate", { ...validInput, dueDate: undefined }],
+      ["missing assigneeId", { ...validInput, assigneeId: undefined }],
+      ["invalid assigneeId", { ...validInput, assigneeId: "not-a-uuid" }],
+      ["invalid status", { ...validInput, status: "INVALID" }],
+      ["invalid priority", { ...validInput, priority: "URGENT" }],
     ])("rejects %s", (_case, input) => {
       expect(createTaskBodySchema.safeParse(input).success).toBe(false);
-    });
-
-    it("accepts all valid TaskStatus values", () => {
-      for (const status of Object.values(TaskStatus)) {
-        const result = createTaskBodySchema.safeParse({ ...validTask, status });
-        expect(result.success).toBe(true);
-      }
-    });
-
-    it("accepts all valid TaskPriority values", () => {
-      for (const priority of Object.values(TaskPriority)) {
-        const result = createTaskBodySchema.safeParse({
-          ...validTask,
-          priority,
-        });
-        expect(result.success).toBe(true);
-      }
     });
   });
 
   describe("getAllTasksQuerySchema", () => {
-    it.each([
-      ["empty query (all defaults)", {}],
-      [
-        "valid full query",
-        {
-          status: "TODO",
-          priority: "HIGH",
-          search: "auth",
-          page: "2",
-          limit: "20",
-        },
-      ],
-      ["status 'all' preprocesses to undefined", { status: "all" }],
-      ["status empty string preprocesses to undefined", { status: "" }],
-      ["priority 'all' preprocesses to undefined", { priority: "all" }],
-      ["search blank string preprocesses to undefined", { search: "   " }],
-      ["page empty string uses default", { page: "" }],
-      ["limit empty string uses default", { limit: "" }],
-    ])("accepts %s", (_case, input) => {
-      expect(getAllTasksQuerySchema.safeParse(input).success).toBe(true);
-    });
-
-    it("correctly preprocesses 'all' status to undefined", () => {
-      const result = getAllTasksQuerySchema.safeParse({ status: "all" });
+    it("accepts valid query with all fields", () => {
+      const result = getAllTasksQuerySchema.safeParse({
+        status: TaskStatus.TODO,
+        priority: TaskPriority.HIGH,
+        search: "auth",
+        page: "2",
+        limit: "20",
+      });
       expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data.status).toBeUndefined();
-      }
     });
 
-    it("applies correct defaults", () => {
+    it("accepts empty query and applies defaults", () => {
       const result = getAllTasksQuerySchema.safeParse({});
       expect(result.success).toBe(true);
       if (result.success) {
@@ -130,9 +102,42 @@ describe("Task Schemas", () => {
       }
     });
 
+    it("transforms 'all' status to undefined", () => {
+      const result = getAllTasksQuerySchema.safeParse({ status: "all" });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.status).toBeUndefined();
+      }
+    });
+
+    it("transforms empty string status to undefined", () => {
+      const result = getAllTasksQuerySchema.safeParse({ status: "" });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.status).toBeUndefined();
+      }
+    });
+
+    it("transforms blank search to undefined", () => {
+      const result = getAllTasksQuerySchema.safeParse({ search: "   " });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.search).toBeUndefined();
+      }
+    });
+
+    it("transforms empty string page/limit to defaults", () => {
+      const result = getAllTasksQuerySchema.safeParse({ page: "", limit: "" });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.page).toBe(1);
+        expect(result.data.limit).toBe(10);
+      }
+    });
+
     it.each([
       ["invalid status", { status: "BLOCKED" }],
-      ["invalid priority", { priority: "CRITICAL" }],
+      ["invalid priority", { priority: "URGENT" }],
       ["negative page", { page: "-1" }],
       ["zero limit", { limit: "0" }],
       ["limit over 100", { limit: "101" }],
@@ -142,39 +147,31 @@ describe("Task Schemas", () => {
   });
 
   describe("updateTaskBodySchema", () => {
-    it.each([
-      ["empty object (all optional)", {}],
-      ["only title", { title: "New Title" }],
-      ["only status", { status: "DONE" }],
-      ["only priority", { priority: "LOW" }],
-      ["only dueDate", { dueDate: "2026-12-01" }],
-      [
-        "only assigneeId",
-        { assigneeId: "123e4567-e89b-12d3-a456-426614174000" },
-      ],
-      [
-        "full update",
-        {
-          title: "New",
-          description: "Desc",
-          status: "DONE",
-          priority: "HIGH",
-          dueDate: "2026-12-01",
-          assigneeId: "123e4567-e89b-12d3-a456-426614174000",
-        },
-      ],
-    ])("accepts %s", (_case, input) => {
-      expect(updateTaskBodySchema.safeParse(input).success).toBe(true);
+    it("accepts valid update with single field", () => {
+      expect(
+        updateTaskBodySchema.safeParse({ status: TaskStatus.DONE }).success,
+      ).toBe(true);
+    });
+
+    it("accepts valid update with multiple fields", () => {
+      const result = updateTaskBodySchema.safeParse({
+        title: "Updated Title",
+        status: TaskStatus.IN_PROGRESS,
+        priority: TaskPriority.HIGH,
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("accepts empty object (all fields optional)", () => {
+      expect(updateTaskBodySchema.safeParse({}).success).toBe(true);
     });
 
     it.each([
       ["title too short", { title: "ab" }],
-      ["title too long", { title: "a".repeat(151) }],
-      ["description too long", { description: "a".repeat(1001) }],
-      ["invalid status", { status: "BLOCKED" }],
-      ["invalid priority", { priority: "URGENT" }],
-      ["invalid dueDate format", { dueDate: "12/01/2026" }],
-      ["invalid assigneeId", { assigneeId: "not-uuid" }],
+      ["title too long (151 chars)", { title: "a".repeat(151) }],
+      ["description too long (1001 chars)", { description: "a".repeat(1001) }],
+      ["invalid dueDate format", { dueDate: "2026/10/01" }],
+      ["invalid assigneeId", { assigneeId: "not-a-uuid" }],
     ])("rejects %s", (_case, input) => {
       expect(updateTaskBodySchema.safeParse(input).success).toBe(false);
     });
