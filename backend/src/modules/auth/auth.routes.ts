@@ -2,27 +2,9 @@ import { Router } from "express";
 import { validate } from "../../middlewares/validate.js";
 import { loginSchema, registerSchema } from "./auth.schema.js";
 import { authController } from "./auth.controller.js";
-import rateLimit from "express-rate-limit";
-import RedisStore, { type RedisReply } from "rate-limit-redis";
-import { redisClient } from "../../lib/redis.js";
+import { apiLimiter } from "../../middlewares/rateLimiters.js";
 
 const router = Router();
-
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-
-  // Use Redis to share rate limits across restarts/instances
-  store: new RedisStore({
-    prefix: "rl:auth:", // ADD THIS so it doesn't share counters with the others
-    // ioredis types mismatch with rate-limit-redis generic
-    sendCommand: (command: string, ...args: string[]) =>
-      redisClient.call(command, ...args) as Promise<RedisReply>,
-  }),
-  message: { msg: "IP rate limit exceeded, retry in 15min" },
-});
 
 router.post(
   "/register",
