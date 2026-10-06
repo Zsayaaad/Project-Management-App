@@ -1,27 +1,30 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../../lib/prisma.js";
 import {
-  authorizeProjectCreator,
-  checkProjectAccess,
   extractProjectId,
+  checkProjectAccess,
+  authorizeProjectCreator,
 } from "../checkProjectAccess.js";
 import { NotFoundError, UnauthorizedError } from "../../errors/customErrors.js";
 import { Role } from "@prisma/client";
 
 jest.mock("../../lib/prisma.js", () => ({
-  prisma: { project: { findUnique: jest.fn() } },
+  prisma: {
+    project: { findUnique: jest.fn() },
+  },
 }));
 
-const mockFindUnique = prisma.project.findUnique as unknown as jest.Mock;
-
-const mockReq = (overrides = {}) =>
-  ({ params: {}, user: undefined, ...overrides }) as unknown as Request;
-
-const mockRes = () => ({}) as Response;
-const mockNext = jest.fn() as NextFunction;
+import { prisma } from "../../lib/prisma.js";
 
 describe("Project Access Middlewares", () => {
-  beforeEach(() => jest.clearAllMocks());
+  const mockRes = {} as Response;
+  const mockNext: NextFunction = jest.fn();
+
+  const mockReq = (overrides: Partial<Request> = {}) =>
+    ({ params: {}, user: undefined, ...overrides }) as Request;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   describe("extractProjectId", () => {
     it("returns valid UUID", () => {
@@ -33,117 +36,132 @@ describe("Project Access Middlewares", () => {
       );
     });
 
-    it.each([
-      ["invalid UUID", { projectId: "not-a-uuid" }],
-      ["missing param", {}],
-    ])("throws NotFoundError for %s", (_case, params) => {
-      const req = mockReq({ params });
+    it("throws NotFoundError for invalid UUID", () => {
+      const req = mockReq({ params: { projectId: "not-a-uuid" } });
       expect(() => extractProjectId(req)).toThrow(NotFoundError);
     });
   });
 
   describe("checkProjectAccess", () => {
-    const validUuid = "123e4567-e89b-12d3-a456-426614174000";
-    const project = {
-      id: validUuid,
-      creatorId: "user-1",
-      members: [{ userId: "user-2" }],
-    };
+    const validId = "123e4567-e89b-12d3-a456-426614174000";
+
+    it("calls next with NotFoundError for invalid UUID", async () => {
+      const req = mockReq({
+        params: { projectId: "bad-id" },
+        user: { userId: "u1", role: Role.MEMBER, name: "U" },
+      });
+      await checkProjectAccess(req, mockRes, mockNext);
+      expect(mockNext).toHaveBeenCalledWith(expect.any(NotFoundError));
+    });
 
     it("calls next with UnauthorizedError if user is not authenticated", async () => {
-      const req = mockReq({ params: { projectId: validUuid } });
-
-      await checkProjectAccess(req, mockRes(), mockNext);
-
+      const req = mockReq({ params: { projectId: validId } });
+      await checkProjectAccess(req, mockRes, mockNext);
       expect(mockNext).toHaveBeenCalledWith(expect.any(UnauthorizedError));
     });
 
     it("calls next with NotFoundError if project does not exist", async () => {
-      mockFindUnique.mockResolvedValueOnce(null);
       const req = mockReq({
-        params: { projectId: validUuid },
-        user: { userId: "user-2", role: Role.MEMBER },
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.MEMBER, name: "U" },
       });
+      jest.mocked(prisma.project.findUnique).mockResolvedValue(null as any);
 
-      await checkProjectAccess(req, mockRes(), mockNext);
-
+      await checkProjectAccess(req, mockRes, mockNext);
       expect(mockNext).toHaveBeenCalledWith(expect.any(NotFoundError));
     });
 
-    it("attaches project and calls next if user is a member", async () => {
-      mockFindUnique.mockResolvedValueOnce(project);
+    it("calls next with UnauthorizedError if user is non-member and non-admin", async () => {
       const req = mockReq({
-        params: { projectId: validUuid },
-        user: { userId: "user-2", role: Role.MEMBER },
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.MEMBER, name: "U" },
       });
+      jest.mocked(prisma.project.findUnique).mockResolvedValue({
+        id: validId,
+        members: [{ userId: "u2", projectId: validId }],
+      } as any);
 
-      await checkProjectAccess(req, mockRes(), mockNext);
-
-      expect(req.project).toEqual(project);
-      expect(mockNext).toHaveBeenCalledWith();
-    });
-
-    it("attaches project and calls next if user is Admin", async () => {
-      mockFindUnique.mockResolvedValueOnce(project);
-      const req = mockReq({
-        params: { projectId: validUuid },
-        user: { userId: "admin-1", role: Role.ADMIN },
-      });
-
-      await checkProjectAccess(req, mockRes(), mockNext);
-
-      expect(mockNext).toHaveBeenCalledWith();
-    });
-
-    it("calls next with UnauthorizedError if user is neither member nor admin", async () => {
-      mockFindUnique.mockResolvedValueOnce(project);
-      const req = mockReq({
-        params: { projectId: validUuid },
-        user: { userId: "user-3", role: Role.MEMBER },
-      });
-
-      await checkProjectAccess(req, mockRes(), mockNext);
-
+      await checkProjectAccess(req, mockRes, mockNext);
       expect(mockNext).toHaveBeenCalledWith(expect.any(UnauthorizedError));
+    });
+
+    it("attaches project and calls next for project member", async () => {
+      const req = mockReq({
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.MEMBER, name: "U" },
+      });
+      const mockProject = {
+        id: validId,
+        members: [{ userId: "u1", projectId: validId }],
+      };
+      jest
+        .mocked(prisma.project.findUnique)
+        .mockResolvedValue(mockProject as any);
+
+      await checkProjectAccess(req, mockRes, mockNext);
+      expect(req.project).toEqual(mockProject);
+      expect(mockNext).toHaveBeenCalledWith();
+    });
+
+    it("attaches project and calls next for admin (even if not member)", async () => {
+      const req = mockReq({
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.ADMIN, name: "A" },
+      });
+      const mockProject = { id: validId, members: [] };
+      jest
+        .mocked(prisma.project.findUnique)
+        .mockResolvedValue(mockProject as any);
+
+      await checkProjectAccess(req, mockRes, mockNext);
+      expect(req.project).toEqual(mockProject);
+      expect(mockNext).toHaveBeenCalledWith();
     });
   });
 
   describe("authorizeProjectCreator", () => {
-    const project = { id: "1", creatorId: "user-1" };
+    const validId = "123e4567-e89b-12d3-a456-426614174000";
 
-    it("calls next if user is the creator", () => {
+    it("calls next with UnauthorizedError if user is not creator and not admin", async () => {
       const req = mockReq({
-        project,
-        user: { userId: "user-1", role: Role.MEMBER },
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.MEMBER, name: "U" },
       });
-      authorizeProjectCreator(req, mockRes(), mockNext);
-      expect(mockNext).toHaveBeenCalled();
-    });
+      jest.mocked(prisma.project.findUnique).mockResolvedValue({
+        id: validId,
+        creatorId: "u2",
+      } as any);
 
-    it("calls next if user is Admin", () => {
-      const req = mockReq({
-        project,
-        user: { userId: "admin-1", role: Role.ADMIN },
-      });
-      authorizeProjectCreator(req, mockRes(), mockNext);
-      expect(mockNext).toHaveBeenCalled();
-    });
-
-    it("calls next with UnauthorizedError if user is neither creator nor admin", async () => {
-      const validUuid = "123e4567-e89b-12d3-a456-426614174000";
-      mockFindUnique.mockResolvedValueOnce({
-        id: validUuid,
-        creatorId: "user-1",
-      });
-
-      const req = mockReq({
-        params: { projectId: validUuid },
-        user: { userId: "user-2", role: Role.MEMBER },
-      });
-
-      await authorizeProjectCreator(req, mockRes(), mockNext);
-
+      await authorizeProjectCreator(req, mockRes, mockNext);
       expect(mockNext).toHaveBeenCalledWith(expect.any(UnauthorizedError));
+    });
+
+    it("calls next for project creator", async () => {
+      const req = mockReq({
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.MEMBER, name: "U" },
+      });
+      jest.mocked(prisma.project.findUnique).mockResolvedValue({
+        id: validId,
+        creatorId: "u1",
+      } as any);
+
+      await authorizeProjectCreator(req, mockRes, mockNext);
+      expect(mockNext).toHaveBeenCalledWith();
+    });
+
+    it("calls next for admin", async () => {
+      const req = mockReq({
+        params: { projectId: validId },
+        user: { userId: "u1", role: Role.ADMIN, name: "A" },
+      });
+      jest.mocked(prisma.project.findUnique).mockResolvedValue({
+        id: validId,
+        creatorId: "u2",
+      } as any);
+
+      await authorizeProjectCreator(req, mockRes, mockNext);
+      expect(mockNext).toHaveBeenCalledWith();
     });
   });
 });
