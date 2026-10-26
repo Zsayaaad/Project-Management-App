@@ -70,7 +70,8 @@ async function main() {
       tasks: [
         {
           title: "Setup React Native / Expo boilerplate",
-          description: "Configure navigation, state management, and base theme.",
+          description:
+            "Configure navigation, state management, and base theme.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -5,
@@ -79,7 +80,8 @@ async function main() {
         },
         {
           title: "Integrate Stripe payment gateway",
-          description: "Implement checkout flows and webhooks for payment processing.",
+          description:
+            "Implement checkout flows and webhooks for payment processing.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 2,
@@ -97,7 +99,8 @@ async function main() {
         },
         {
           title: "Implement user authentication & JWT refresh",
-          description: "Secure login, token rotation, and biometric authentication setup.",
+          description:
+            "Secure login, token rotation, and biometric authentication setup.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -3,
@@ -106,7 +109,8 @@ async function main() {
         },
         {
           title: "Push notifications setup with FCM",
-          description: "Configure Firebase Cloud Messaging for transactional push notifications.",
+          description:
+            "Configure Firebase Cloud Messaging for transactional push notifications.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 4,
@@ -115,7 +119,8 @@ async function main() {
         },
         {
           title: "Product search & auto-complete functionality",
-          description: "Add instant search index queries with debounce handling.",
+          description:
+            "Add instant search index queries with debounce handling.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 6,
@@ -124,7 +129,8 @@ async function main() {
         },
         {
           title: "Shopping cart state management",
-          description: "Persist items locally with Zustand and sync with backend on checkout.",
+          description:
+            "Persist items locally with Zustand and sync with backend on checkout.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -1,
@@ -133,7 +139,8 @@ async function main() {
         },
         {
           title: "User profile & avatar upload service",
-          description: "Allow updating profile info and cropping avatar image before S3 upload.",
+          description:
+            "Allow updating profile info and cropping avatar image before S3 upload.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 10,
@@ -142,7 +149,8 @@ async function main() {
         },
         {
           title: "Order history & live tracking view",
-          description: "Display past orders with status timeline and invoice PDF download.",
+          description:
+            "Display past orders with status timeline and invoice PDF download.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 3,
@@ -151,7 +159,8 @@ async function main() {
         },
         {
           title: "Wishlist & favorite items feature",
-          description: "Add quick favorite toggles on product cards and dedicated wishlist tab.",
+          description:
+            "Add quick favorite toggles on product cards and dedicated wishlist tab.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 12,
@@ -160,7 +169,8 @@ async function main() {
         },
         {
           title: "Product review & rating system",
-          description: "User ratings, star breakdown graphs, and photo attachment capability.",
+          description:
+            "User ratings, star breakdown graphs, and photo attachment capability.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 14,
@@ -169,7 +179,8 @@ async function main() {
         },
         {
           title: "Deep linking for marketing campaigns",
-          description: "Configure Universal Links (iOS) and App Links (Android) for promo codes.",
+          description:
+            "Configure Universal Links (iOS) and App Links (Android) for promo codes.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -2,
@@ -178,7 +189,8 @@ async function main() {
         },
         {
           title: "Dark mode theme switch support",
-          description: "Implement system accent matching and manual theme switcher.",
+          description:
+            "Implement system accent matching and manual theme switcher.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -4,
@@ -187,7 +199,8 @@ async function main() {
         },
         {
           title: "Optimize image loading & CDN caching",
-          description: "Integrate WebP image formatting and lazy loading progressive placeholders.",
+          description:
+            "Integrate WebP image formatting and lazy loading progressive placeholders.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 5,
@@ -196,7 +209,8 @@ async function main() {
         },
         {
           title: "Apple Pay & Google Pay native integration",
-          description: "One-click native wallet checkout implementation for mobile devices.",
+          description:
+            "One-click native wallet checkout implementation for mobile devices.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 8,
@@ -205,7 +219,8 @@ async function main() {
         },
         {
           title: "Multi-currency & localization (i18n)",
-          description: "Add currency conversion endpoints and support Spanish/French translations.",
+          description:
+            "Add currency conversion endpoints and support Spanish/French translations.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 15,
@@ -223,7 +238,8 @@ async function main() {
         },
         {
           title: "Biometric login (Face ID / Fingerprint)",
-          description: "Native biometric prompt integration via Expo LocalAuthentication.",
+          description:
+            "Native biometric prompt integration via Expo LocalAuthentication.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 1,
@@ -232,7 +248,8 @@ async function main() {
         },
         {
           title: "Offline mode cart persistence",
-          description: "Handle offline queueing for add-to-cart actions when network disconnects.",
+          description:
+            "Handle offline queueing for add-to-cart actions when network disconnects.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 9,
@@ -241,7 +258,8 @@ async function main() {
         },
         {
           title: "In-app support chat widget",
-          description: "Intercom SDK integration for mobile customer inquiry support.",
+          description:
+            "Intercom SDK integration for mobile customer inquiry support.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 11,
@@ -250,7 +268,8 @@ async function main() {
         },
         {
           title: "Discount code & promo coupon checkout logic",
-          description: "Backend validation engine for referral and percentage discount codes.",
+          description:
+            "Backend validation engine for referral and percentage discount codes.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -7,
@@ -259,7 +278,8 @@ async function main() {
         },
         {
           title: "Unit & E2E tests for checkout flow",
-          description: "Write Detox tests covering item search, cart addition, and payment.",
+          description:
+            "Write Detox tests covering item search, cart addition, and payment.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 4,
@@ -268,7 +288,8 @@ async function main() {
         },
         {
           title: "App Store & Play Store asset preparation",
-          description: "Generate app icons, localized screenshots, and submission metadata.",
+          description:
+            "Generate app icons, localized screenshots, and submission metadata.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 18,
@@ -277,7 +298,8 @@ async function main() {
         },
         {
           title: "Crashlytics & error tracking setup",
-          description: "Sentry SDK installation for JS & native error monitoring.",
+          description:
+            "Sentry SDK installation for JS & native error monitoring.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -8,
@@ -286,7 +308,8 @@ async function main() {
         },
         {
           title: "Security audit & OWASP mobile compliance",
-          description: "Perform penetration testing and secure token storage audit.",
+          description:
+            "Perform penetration testing and secure token storage audit.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 20,
@@ -311,7 +334,8 @@ async function main() {
         },
         {
           title: "Implement real-time chat widget",
-          description: "WebSockets integration for live support agent communication.",
+          description:
+            "WebSockets integration for live support agent communication.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 3,
@@ -329,7 +353,8 @@ async function main() {
         },
         {
           title: "Ticket assignment auto-routing algorithm",
-          description: "Round-robin distribution of incoming high-priority tickets.",
+          description:
+            "Round-robin distribution of incoming high-priority tickets.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -6,
@@ -338,7 +363,8 @@ async function main() {
         },
         {
           title: "SLA tracking timer & breach alerts",
-          description: "Visual SLA Countdown timer on active tickets and webhook alerts.",
+          description:
+            "Visual SLA Countdown timer on active tickets and webhook alerts.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 2,
@@ -347,7 +373,8 @@ async function main() {
         },
         {
           title: "Customer sentiment analysis model",
-          description: "Classify incoming tickets by urgency and tone using NLP classifier.",
+          description:
+            "Classify incoming tickets by urgency and tone using NLP classifier.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 7,
@@ -365,7 +392,8 @@ async function main() {
         },
         {
           title: "Email-to-ticket conversion service",
-          description: "Parse incoming customer support emails into structured tickets.",
+          description:
+            "Parse incoming customer support emails into structured tickets.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 4,
@@ -374,7 +402,8 @@ async function main() {
         },
         {
           title: "Knowledge base article search modal",
-          description: "Allow support agents to insert KB links directly into replies.",
+          description:
+            "Allow support agents to insert KB links directly into replies.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 9,
@@ -383,7 +412,8 @@ async function main() {
         },
         {
           title: "Agent performance & KPI metrics",
-          description: "Resolution time, tickets closed per hour, and CSAT aggregate graphs.",
+          description:
+            "Resolution time, tickets closed per hour, and CSAT aggregate graphs.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 11,
@@ -401,7 +431,8 @@ async function main() {
         },
         {
           title: "Canned responses & macro shortcuts",
-          description: "Agent shortcut commands to instantly paste common answers.",
+          description:
+            "Agent shortcut commands to instantly paste common answers.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 5,
@@ -410,7 +441,8 @@ async function main() {
         },
         {
           title: "Customer CRM history sidebar",
-          description: "Show previous ticket history, billing status, and plan details.",
+          description:
+            "Show previous ticket history, billing status, and plan details.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 8,
@@ -419,7 +451,8 @@ async function main() {
         },
         {
           title: "Role-based access control (RBAC)",
-          description: "Permissions for Tier 1, Tier 2, and Admin support managers.",
+          description:
+            "Permissions for Tier 1, Tier 2, and Admin support managers.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -3,
@@ -428,7 +461,8 @@ async function main() {
         },
         {
           title: "Webhook triggers for third-party tools",
-          description: "Emit events when tickets are opened, updated, or closed.",
+          description:
+            "Emit events when tickets are opened, updated, or closed.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 14,
@@ -437,7 +471,8 @@ async function main() {
         },
         {
           title: "Out-of-office auto responder",
-          description: "Schedule automated responses during holiday or off-hour shifts.",
+          description:
+            "Schedule automated responses during holiday or off-hour shifts.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 15,
@@ -446,7 +481,8 @@ async function main() {
         },
         {
           title: "Merge duplicate tickets tool",
-          description: "Consolidate multiple emails from the same user into a single ticket.",
+          description:
+            "Consolidate multiple emails from the same user into a single ticket.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 1,
@@ -455,7 +491,8 @@ async function main() {
         },
         {
           title: "Automated CSAT rating email",
-          description: "Trigger rating request email 1 hour after ticket resolution.",
+          description:
+            "Trigger rating request email 1 hour after ticket resolution.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -7,
@@ -464,7 +501,8 @@ async function main() {
         },
         {
           title: "Escalation rules & manager alerts",
-          description: "Auto-escalate tickets untouched for > 2 hours to tier 2 leads.",
+          description:
+            "Auto-escalate tickets untouched for > 2 hours to tier 2 leads.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 6,
@@ -473,7 +511,8 @@ async function main() {
         },
         {
           title: "Activity log & audit trails",
-          description: "Record every field modification, note, and agent reassignment.",
+          description:
+            "Record every field modification, note, and agent reassignment.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -1,
@@ -482,7 +521,8 @@ async function main() {
         },
         {
           title: "Custom dashboard widget layout",
-          description: "Drag-and-drop dashboard grid for personalized agent metrics.",
+          description:
+            "Drag-and-drop dashboard grid for personalized agent metrics.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 16,
@@ -491,7 +531,8 @@ async function main() {
         },
         {
           title: "Internal agent @mentions in notes",
-          description: "Notify colleagues in team Slack/Email when tagged in a ticket note.",
+          description:
+            "Notify colleagues in team Slack/Email when tagged in a ticket note.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 3,
@@ -500,7 +541,8 @@ async function main() {
         },
         {
           title: "Redis queue load monitoring",
-          description: "Monitor real-time ticket ingestion rate and queue backpressure.",
+          description:
+            "Monitor real-time ticket ingestion rate and queue backpressure.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -8,
@@ -509,7 +551,8 @@ async function main() {
         },
         {
           title: "Ticket attachments malware scanner",
-          description: "Scan customer-uploaded files using ClamAV before storing in S3.",
+          description:
+            "Scan customer-uploaded files using ClamAV before storing in S3.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 13,
@@ -518,7 +561,8 @@ async function main() {
         },
         {
           title: "SOC2 compliance & audit log export",
-          description: "Export audit trails in encrypted archive for compliance verification.",
+          description:
+            "Export audit trails in encrypted archive for compliance verification.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 21,
@@ -533,7 +577,8 @@ async function main() {
       tasks: [
         {
           title: "Evaluate LLM API options & pricing",
-          description: "Compare latency, cost, and context limits across providers.",
+          description:
+            "Compare latency, cost, and context limits across providers.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -5,
@@ -551,7 +596,8 @@ async function main() {
         },
         {
           title: "Context window optimization",
-          description: "Implement vector store semantic search for dynamic context injection.",
+          description:
+            "Implement vector store semantic search for dynamic context injection.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 6,
@@ -560,7 +606,8 @@ async function main() {
         },
         {
           title: "Vector database setup (pgvector)",
-          description: "Initialize PostgreSQL extension for high-performance embeddings.",
+          description:
+            "Initialize PostgreSQL extension for high-performance embeddings.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -3,
@@ -569,7 +616,8 @@ async function main() {
         },
         {
           title: "Custom system prompt manager",
-          description: "Interface to tune system instructions per tenant workspace.",
+          description:
+            "Interface to tune system instructions per tenant workspace.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 3,
@@ -578,7 +626,8 @@ async function main() {
         },
         {
           title: "Document chunking & embedding pipeline",
-          description: "Background worker to split PDF/DOCX files into 512-token chunks.",
+          description:
+            "Background worker to split PDF/DOCX files into 512-token chunks.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 5,
@@ -587,7 +636,8 @@ async function main() {
         },
         {
           title: "Token usage & cost throttling",
-          description: "Set daily usage limits per user role to avoid API overruns.",
+          description:
+            "Set daily usage limits per user role to avoid API overruns.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -1,
@@ -596,7 +646,8 @@ async function main() {
         },
         {
           title: "Multi-modal image attachment support",
-          description: "Allow users to upload screenshots for vision-capable models.",
+          description:
+            "Allow users to upload screenshots for vision-capable models.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 9,
@@ -605,7 +656,8 @@ async function main() {
         },
         {
           title: "Chat history persistence & title generator",
-          description: "Auto-generate conversation titles and store prompt/completion pairs.",
+          description:
+            "Auto-generate conversation titles and store prompt/completion pairs.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 1,
@@ -614,7 +666,8 @@ async function main() {
         },
         {
           title: "User feedback collector (thumbs up/down)",
-          description: "Collect prompt feedback to build RLHF / fine-tuning datasets.",
+          description:
+            "Collect prompt feedback to build RLHF / fine-tuning datasets.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 12,
@@ -623,7 +676,8 @@ async function main() {
         },
         {
           title: "Hallucination & safety guardrails",
-          description: "Integrate NeMo Guardrails to prevent harmful or off-topic outputs.",
+          description:
+            "Integrate NeMo Guardrails to prevent harmful or off-topic outputs.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 8,
@@ -632,7 +686,8 @@ async function main() {
         },
         {
           title: "Function calling & tool execution",
-          description: "Enable AI to execute backend queries (e.g. create task, fetch stats).",
+          description:
+            "Enable AI to execute backend queries (e.g. create task, fetch stats).",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 4,
@@ -641,7 +696,8 @@ async function main() {
         },
         {
           title: "RAG pipeline latency optimization",
-          description: "Cache frequent query embeddings in Redis for < 200ms retrieval.",
+          description:
+            "Cache frequent query embeddings in Redis for < 200ms retrieval.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -2,
@@ -650,7 +706,8 @@ async function main() {
         },
         {
           title: "Voice input transcription (Whisper API)",
-          description: "Add microphone record button and auto-transcribe audio queries.",
+          description:
+            "Add microphone record button and auto-transcribe audio queries.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 14,
@@ -677,7 +734,8 @@ async function main() {
         },
         {
           title: "Model fallback & failover logic",
-          description: "Automatically route to secondary LLM provider on API outages.",
+          description:
+            "Automatically route to secondary LLM provider on API outages.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 2,
@@ -704,7 +762,8 @@ async function main() {
         },
         {
           title: "Code block syntax highlighting & copy button",
-          description: "Format generated code snippets with Monaco editor theme.",
+          description:
+            "Format generated code snippets with Monaco editor theme.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -7,
@@ -713,7 +772,8 @@ async function main() {
         },
         {
           title: "Citation & source reference UI",
-          description: "Render clickable reference badges pointing to source docs.",
+          description:
+            "Render clickable reference badges pointing to source docs.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 5,
@@ -722,7 +782,8 @@ async function main() {
         },
         {
           title: "Prompt injection defense filter",
-          description: "Sanitize incoming prompt strings against jailbreak patterns.",
+          description:
+            "Sanitize incoming prompt strings against jailbreak patterns.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 10,
@@ -731,7 +792,8 @@ async function main() {
         },
         {
           title: "Agentic workflow orchestrator",
-          description: "Multi-step reasoning planner for complex user requests.",
+          description:
+            "Multi-step reasoning planner for complex user requests.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 13,
@@ -740,7 +802,8 @@ async function main() {
         },
         {
           title: "PII masking before LLM submission",
-          description: "Redact email addresses, phone numbers, and SSNs from prompts.",
+          description:
+            "Redact email addresses, phone numbers, and SSNs from prompts.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -9,
@@ -749,7 +812,8 @@ async function main() {
         },
         {
           title: "E2E benchmark evaluation suite",
-          description: "Automated scoring of AI accuracy on standard test questions.",
+          description:
+            "Automated scoring of AI accuracy on standard test questions.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 22,
@@ -783,7 +847,8 @@ async function main() {
         },
         {
           title: "Setup CI/CD pipeline",
-          description: "Automate build, test, and deploy steps in GitHub Actions.",
+          description:
+            "Automate build, test, and deploy steps in GitHub Actions.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 8,
@@ -792,7 +857,8 @@ async function main() {
         },
         {
           title: "Provision PostgreSQL RDS with read replicas",
-          description: "Setup multi-AZ deployment with automated daily backups.",
+          description:
+            "Setup multi-AZ deployment with automated daily backups.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -5,
@@ -801,7 +867,8 @@ async function main() {
         },
         {
           title: "Redis Cluster setup for session caching",
-          description: "Deploy ElastiCache Redis cluster with automatic failover.",
+          description:
+            "Deploy ElastiCache Redis cluster with automatic failover.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 2,
@@ -810,7 +877,8 @@ async function main() {
         },
         {
           title: "AWS VPC subnets & NAT Gateway setup",
-          description: "Configure isolated private subnets and secure internet egress.",
+          description:
+            "Configure isolated private subnets and secure internet egress.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -7,
@@ -819,7 +887,8 @@ async function main() {
         },
         {
           title: "Kubernetes / ECS service deployment",
-          description: "Write task definitions and auto-scaling group policies.",
+          description:
+            "Write task definitions and auto-scaling group policies.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 3,
@@ -828,7 +897,8 @@ async function main() {
         },
         {
           title: "CloudFront CDN asset distribution",
-          description: "Cache static uploads and frontend assets at edge locations.",
+          description:
+            "Cache static uploads and frontend assets at edge locations.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 7,
@@ -837,7 +907,8 @@ async function main() {
         },
         {
           title: "SSL/TLS certificate automation (ACM)",
-          description: "Request and attach wildcard SSL certs to Application Load Balancer.",
+          description:
+            "Request and attach wildcard SSL certs to Application Load Balancer.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -2,
@@ -846,7 +917,8 @@ async function main() {
         },
         {
           title: "Prometheus & Grafana monitoring",
-          description: "Build infrastructure metrics dashboard and CPU spike alerts.",
+          description:
+            "Build infrastructure metrics dashboard and CPU spike alerts.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 4,
@@ -864,7 +936,8 @@ async function main() {
         },
         {
           title: "Auto-scaling rules configuration",
-          description: "Scale ECS task count based on target 70% CPU usage threshold.",
+          description:
+            "Scale ECS task count based on target 70% CPU usage threshold.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 11,
@@ -882,7 +955,8 @@ async function main() {
         },
         {
           title: "IAM roles & least-privilege policy audit",
-          description: "Restrict IAM permissions for microservices access to S3/KMS.",
+          description:
+            "Restrict IAM permissions for microservices access to S3/KMS.",
           status: TaskStatus.DONE,
           priority: TaskPriority.HIGH,
           dueDays: -8,
@@ -891,7 +965,8 @@ async function main() {
         },
         {
           title: "AWS WAF rules setup",
-          description: "Enable rate limiting rules and SQL injection blocking firewall.",
+          description:
+            "Enable rate limiting rules and SQL injection blocking firewall.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 1,
@@ -909,7 +984,8 @@ async function main() {
         },
         {
           title: "Bastion host / Teleport SSH setup",
-          description: "Secure production database access via zero-trust proxy.",
+          description:
+            "Secure production database access via zero-trust proxy.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -1,
@@ -918,7 +994,8 @@ async function main() {
         },
         {
           title: "AWS Secrets Manager integration",
-          description: "Migrate environment variables into encrypted Secrets Manager secrets.",
+          description:
+            "Migrate environment variables into encrypted Secrets Manager secrets.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 6,
@@ -927,7 +1004,8 @@ async function main() {
         },
         {
           title: "DNS migration & Route53 failover",
-          description: "Prepare low TTL DNS records for smooth domain migration.",
+          description:
+            "Prepare low TTL DNS records for smooth domain migration.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 14,
@@ -936,7 +1014,8 @@ async function main() {
         },
         {
           title: "Internal microservices service mesh",
-          description: "Implement Envoy sidecars for mTLS inter-service encryption.",
+          description:
+            "Implement Envoy sidecars for mTLS inter-service encryption.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 15,
@@ -945,7 +1024,8 @@ async function main() {
         },
         {
           title: "AWS Savings Plans & cost optimization",
-          description: "Analyze compute usage and purchase compute savings plans.",
+          description:
+            "Analyze compute usage and purchase compute savings plans.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -3,
@@ -954,7 +1034,8 @@ async function main() {
         },
         {
           title: "Container vulnerability scan (Trivy)",
-          description: "Add automated container image CVE scanning in pipeline.",
+          description:
+            "Add automated container image CVE scanning in pipeline.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 3,
@@ -963,7 +1044,8 @@ async function main() {
         },
         {
           title: "k6 load testing & capacity benchmark",
-          description: "Simulate 10,000 concurrent user requests to find bottlenecks.",
+          description:
+            "Simulate 10,000 concurrent user requests to find bottlenecks.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 9,
@@ -972,7 +1054,8 @@ async function main() {
         },
         {
           title: "Failover testing & chaos engineering drill",
-          description: "Simulate database primary node crash and observe auto-failover.",
+          description:
+            "Simulate database primary node crash and observe auto-failover.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 17,
@@ -981,7 +1064,8 @@ async function main() {
         },
         {
           title: "Final cloud compliance audit",
-          description: "Ensure infrastructure meets PCI-DSS & SOC2 security standards.",
+          description:
+            "Ensure infrastructure meets PCI-DSS & SOC2 security standards.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 23,
@@ -997,7 +1081,8 @@ async function main() {
       tasks: [
         {
           title: "Figma design system handoff",
-          description: "Review hero section and CTA components with UI designer.",
+          description:
+            "Review hero section and CTA components with UI designer.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -4,
@@ -1060,7 +1145,8 @@ async function main() {
         },
         {
           title: "Lead magnet eBook download modal",
-          description: "Capture emails in exchange for whitepaper PDF download.",
+          description:
+            "Capture emails in exchange for whitepaper PDF download.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 4,
@@ -1069,7 +1155,8 @@ async function main() {
         },
         {
           title: "Dynamic OpenGraph preview card generator",
-          description: "Generate dynamic social sharing thumbnail images for blog posts.",
+          description:
+            "Generate dynamic social sharing thumbnail images for blog posts.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 8,
@@ -1087,7 +1174,8 @@ async function main() {
         },
         {
           title: "A/B testing framework integration",
-          description: "Setup PostHog feature flags for hero CTA copy experiments.",
+          description:
+            "Setup PostHog feature flags for hero CTA copy experiments.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.HIGH,
           dueDays: 1,
@@ -1096,7 +1184,8 @@ async function main() {
         },
         {
           title: "Cross-browser & mobile responsive audit",
-          description: "Test layout rendering on Safari, Chrome, iOS, and Android.",
+          description:
+            "Test layout rendering on Safari, Chrome, iOS, and Android.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 6,
@@ -1114,7 +1203,8 @@ async function main() {
         },
         {
           title: "Interactive feature matrix table",
-          description: "Comparison table detailing features across Free, Pro, and Enterprise.",
+          description:
+            "Comparison table detailing features across Free, Pro, and Enterprise.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 7,
@@ -1123,7 +1213,8 @@ async function main() {
         },
         {
           title: "Multi-language i18n support",
-          description: "Add localization for English, Spanish, and German locales.",
+          description:
+            "Add localization for English, Spanish, and German locales.",
           status: TaskStatus.TODO,
           priority: TaskPriority.LOW,
           dueDays: 11,
@@ -1132,7 +1223,8 @@ async function main() {
         },
         {
           title: "Light & dark theme toggle component",
-          description: "Smooth CSS variable transition between light and dark modes.",
+          description:
+            "Smooth CSS variable transition between light and dark modes.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -3,
@@ -1141,7 +1233,8 @@ async function main() {
         },
         {
           title: "Live sales chat widget setup",
-          description: "Integrate HubSpot chat widget for sales team engagement.",
+          description:
+            "Integrate HubSpot chat widget for sales team engagement.",
           status: TaskStatus.TODO,
           priority: TaskPriority.MEDIUM,
           dueDays: 10,
@@ -1150,7 +1243,8 @@ async function main() {
         },
         {
           title: "Schema.org structured data injection",
-          description: "Add Organization and Product JSON-LD schemas for Google indexing.",
+          description:
+            "Add Organization and Product JSON-LD schemas for Google indexing.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -7,
@@ -1159,7 +1253,8 @@ async function main() {
         },
         {
           title: "Scroll-triggered Framer Motion animations",
-          description: "Add subtle scroll reveal animations to key value proposition sections.",
+          description:
+            "Add subtle scroll reveal animations to key value proposition sections.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 3,
@@ -1168,7 +1263,8 @@ async function main() {
         },
         {
           title: "Sitemap.xml & robots.txt auto-generator",
-          description: "Generate search engine crawling files during Next.js build.",
+          description:
+            "Generate search engine crawling files during Next.js build.",
           status: TaskStatus.DONE,
           priority: TaskPriority.LOW,
           dueDays: -8,
@@ -1177,7 +1273,8 @@ async function main() {
         },
         {
           title: "Google PageSpeed 95+ score optimization",
-          description: "Minify scripts, inline critical CSS, and defer non-essentialJS.",
+          description:
+            "Minify scripts, inline critical CSS, and defer non-essentialJS.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 12,
@@ -1186,7 +1283,8 @@ async function main() {
         },
         {
           title: "reCAPTCHA v3 spam prevention on forms",
-          description: "Prevent bot submissions on contact and demo request forms.",
+          description:
+            "Prevent bot submissions on contact and demo request forms.",
           status: TaskStatus.DONE,
           priority: TaskPriority.MEDIUM,
           dueDays: -2,
@@ -1195,7 +1293,8 @@ async function main() {
         },
         {
           title: "UTM campaign parameter tracking",
-          description: "Store incoming query parameters in local storage for lead attribution.",
+          description:
+            "Store incoming query parameters in local storage for lead attribution.",
           status: TaskStatus.IN_PROGRESS,
           priority: TaskPriority.MEDIUM,
           dueDays: 5,
@@ -1204,7 +1303,8 @@ async function main() {
         },
         {
           title: "Enterprise ROI calculator widget",
-          description: "Interactive savings calculator for prospective enterprise clients.",
+          description:
+            "Interactive savings calculator for prospective enterprise clients.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 14,
@@ -1213,7 +1313,8 @@ async function main() {
         },
         {
           title: "Final QA signoff & DNS cutover",
-          description: "Final marketing team approval and pointing root domain to Vercel.",
+          description:
+            "Final marketing team approval and pointing root domain to Vercel.",
           status: TaskStatus.TODO,
           priority: TaskPriority.HIGH,
           dueDays: 19,

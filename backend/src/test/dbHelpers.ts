@@ -36,7 +36,7 @@ export const resetDb = async () => {
 
   // Discover all table names dynamically from the public schema
   const tables = await prisma.$queryRaw<Array<{ tablename: string }>>`
-    SELECT tablename FROM pg_tables WHERE schemaname = 'public'
+    SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename != '_prisma_migrations'
   `;
 
   if (tables.length === 0) {

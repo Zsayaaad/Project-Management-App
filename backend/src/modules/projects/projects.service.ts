@@ -41,7 +41,7 @@ export const createProject = async (
       const newProject = await tx.project.create({
         data: {
           name: data.name,
-          description: data.description!,
+          description: data.description ?? "",
           creatorId,
         },
         include: {
