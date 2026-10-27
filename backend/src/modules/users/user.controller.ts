@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { userService } from "./user.service.js";
 import { StatusCodes } from "http-status-codes";
 import { clearAuthCookie } from "../../utils/cookies.js";
+import { getEnv } from "../../lib/env.js";
 
 export const getCurrentUser = async (req: Request, res: Response) => {
   const user = await userService.getCurrentUser(req.user!.userId);
@@ -38,8 +39,9 @@ export const changePassword = async (req: Request, res: Response) => {
 
 export const deleteAccount = async (req: Request, res: Response) => {
   const result = await userService.deleteAccount(req.user!.userId, req.body);
+  const env = getEnv();
 
-  clearAuthCookie(res);
+  clearAuthCookie(res, env.NODE_ENV === "production");
 
   return res.status(StatusCodes.OK).json({
     message: result.message,
