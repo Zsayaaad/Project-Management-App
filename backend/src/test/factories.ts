@@ -4,11 +4,13 @@
 import { randomUUID } from "node:crypto";
 import { Role, TaskPriority, TaskStatus } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
+import { hashPassword } from "../utils/hash.js";
 
 type UserOverrides = Partial<{
   id: string;
   name: string;
   email: string;
+  // Plain-text password. Will be hashed with the configured cost factor (4 in test env)
   password: string;
   role: Role;
   avatarUrl: string | null;
@@ -42,20 +44,26 @@ type ProjectMemberOverrides = {
 
 /**
  * Creates a test user in the database.
- * Generates a unique email using randomUUID() to prevent collisions.
- * Password is NOT hashed — use pre-hashed values for speed.
+ * Accepts a plain-text password and hashes it with the configured cost factor.
+ * In the test env, BCRYPT_SALT_ROUNDS=4 so hashing takes ~1ms instead of ~100ms.
  */
 export const createUser = async (overrides: UserOverrides = {}) => {
   const uniqueId = randomUUID();
+
+  const plainPassword = overrides.password ?? "password123";
+  const hashedPassword = await hashPassword(plainPassword);
+
   const defaults = {
     name: `Test User ${uniqueId.slice(0, 8)}`,
     email: `user-${uniqueId}@test.com`,
-    password: "$2a$12$KIXvQm5pQ8vZ9qXqLqRqWeQqXqLqRqWeQqXqLqRqWeQqXqLqRqWeQq", // Pre-hashed "password123"
+    password: hashedPassword,
     role: Role.MEMBER,
     avatarUrl: null,
   };
 
-  const userData = { ...defaults, ...overrides };
+  // Remove password from overrides since we already hashed it
+  const { password: _pw, ...restOverrides } = overrides;
+  const userData = { ...defaults, ...restOverrides };
 
   return prisma.user.create({
     data: userData,

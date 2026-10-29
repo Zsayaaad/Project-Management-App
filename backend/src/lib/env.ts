@@ -20,6 +20,8 @@ const envSchema = z.object({
 
   // Redis URL (defaults to local Docker instance)
   REDIS_URL: z.url().default("redis://localhost:6379"),
+
+  BCRYPT_SALT_ROUNDS: z.coerce.number().default(12),
 });
 
 export type Env = z.infer<typeof envSchema>;

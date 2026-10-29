@@ -180,10 +180,26 @@ export const deleteAccount = async (
     });
   }
 
-  await prisma.user.delete({
-    where: {
-      id: userId,
-    },
+  await prisma.$transaction(async (tx) => {
+    // Delete projects owned by the user (cascades to their tasks and members)
+    await tx.project.deleteMany({
+      where: {
+        creatorId: userId,
+      },
+    });
+
+    // Delete any remaining tasks created by or assigned to the user in other projects
+    await tx.task.deleteMany({
+      where: {
+        OR: [{ creatorId: userId }, { assigneeId: userId }],
+      },
+    });
+
+    await tx.user.delete({
+      where: {
+        id: userId,
+      },
+    });
   });
 
   return {
